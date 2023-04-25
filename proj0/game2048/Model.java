@@ -140,10 +140,6 @@ public class Model extends Observable {
         boolean changed;
         changed = false;
 
-        // TODO: Modify this.board (and perhaps this.score) to account
-        // for the tilt to the Side SIDE. If the board changed, set the
-        // changed local variable to true.
-
         this.board.startViewingFrom(side);
         for (int col = 0; col < this.board.size(); ++col) {
 
@@ -160,14 +156,12 @@ public class Model extends Observable {
                             != nowTile.value()) {
                         if (row != nextTileRowUp(col, row) - 1) {
                             changed = true;
-                            System.out.println("debugging: move to " + col + nextTileRowUp(col, row));
                             this.board.move(col, nextTileRowUp(col, row) - 1, nowTile);
                         }
                     }
 
                     else {
                         banMergeRow = nextTileRowUp(col, row);
-                        System.out.println("debugging: merged at " + col + banMergeRow);
                         this.board.move(col, this.nextTileRowUp(col, row), nowTile);
                         this.score += 2 * nowTile.value();
                         changed = true;
