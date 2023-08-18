@@ -1,11 +1,8 @@
 package deque;
 
-import afu.org.checkerframework.checker.igj.qual.I;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 public class ArrayDequeTest {
     public void addIsEmptySizeTest() {
@@ -67,8 +64,8 @@ public class ArrayDequeTest {
     @Test
     /* Check if you can create LinkedListDeques with different parameterized types*/
     public void multipleParamTest() {
-        ArrayDeque<String>  ad1 = new ArrayDeque<String>();
-        ArrayDeque<Double>  ad2 = new ArrayDeque<Double>();
+        ArrayDeque<String> ad1 = new ArrayDeque<String>();
+        ArrayDeque<Double> ad2 = new ArrayDeque<Double>();
         ArrayDeque<Boolean> ad3 = new ArrayDeque<Boolean>();
 
         ad1.addFirst("string");
@@ -83,18 +80,18 @@ public class ArrayDequeTest {
     @Test
     /* check if null is return when removing from an empty LinkedListDeque. */
     public void emptyNullReturnTest() {
-        ArrayDeque<String>  ad1 = new ArrayDeque<String>();
+        ArrayDeque<String> ad1 = new ArrayDeque<String>();
 
         boolean passed1 = false;
         boolean passed2 = false;
-        assertEquals("Should return null when removeFirst is called on an empty Deque,", null, ad1.removeFirst());
-        assertEquals("Should return null when removeLast is called on an empty Deque,", null, ad1.removeLast());
+        assertNull("Should return null when removeFirst is called on an empty Deque,", ad1.removeFirst());
+        assertNull("Should return null when removeLast is called on an empty Deque,", ad1.removeLast());
     }
 
     @Test
     /* Add large number of elements to deque; check if order is correct. */
     public void bigLLDequeTest() {
-        ArrayDeque<Integer>  ad1 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
         for (int i = 0; i < 1000000; i++) {
             ad1.addLast(i);
         }
@@ -109,7 +106,7 @@ public class ArrayDequeTest {
     }
 
     @Test
-    public void IteratorTest() {
+    public void iteratorTest() {
         ArrayDeque<Integer> ad = new ArrayDeque<>();
         for (int i = 0; i != 101; i++)
             ad.addLast(i);
@@ -121,7 +118,7 @@ public class ArrayDequeTest {
     }
 
     @Test
-    public void IterateOnEmptyTest() {
+    public void iterateOnEmptyTest() {
         ArrayDeque<Integer> ad = new ArrayDeque<>();
         int expected = 19260817;    // random magic number
 
@@ -131,12 +128,15 @@ public class ArrayDequeTest {
     }
 
     @Test
-    public void EqualsTest() {
+    public void equalsTest() {
         ArrayDeque<Integer> ad = new ArrayDeque<>();
         ArrayDeque<Integer> ad2 = new ArrayDeque<>();
         ArrayDeque<Integer> ad3 = new ArrayDeque<>();
         ArrayDeque<Integer> ad4 = new ArrayDeque<>();
         ArrayDeque<Integer> ad5 = ad4;
+        LinkedListDeque<Integer> lld = new LinkedListDeque<>();
+        lld.addLast(1);
+        lld.addFirst(0);
         ad3.addLast(0);
         ad3.addLast(1);
         ad4.addFirst(0);
@@ -148,5 +148,36 @@ public class ArrayDequeTest {
         assertFalse(ad.equals(ad3));
         assertTrue(ad3.equals(ad4));
         assertTrue(ad5.equals(ad4));
+        assertTrue(ad3.equals(lld));
+        assertTrue(lld.equals(ad3));
+
+    }
+
+    @Test
+    public void getTest() {
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+        for (int i = 0; i != 101; i++)
+            ad.addLast(i);
+
+        for (int expected = 0; expected != 101; expected++) {
+            assertEquals(expected, (int) ad.get(expected));
+        }
+    }
+
+    @Test
+    public void getTest2() {
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+
+        ad.addLast(0);
+        assertEquals(0, (int) ad.get(0));
+        ad.removeFirst();
+        ad.addLast(3);
+        ad.addFirst(4);
+        ad.addFirst(5);
+        ad.removeLast();
+        assertEquals(5, (int) ad.get(0));
+        ad.addLast(8);
+        assertEquals(5, (int) ad.get(0));
+        assertEquals(8, (int) ad.get(2));
     }
 }

@@ -4,52 +4,16 @@ import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
-    // Index of arr, ModCapacityResidueClass
-    private class Index {
-        int n;
-
-        public Index(int i) {
-            n = i;
-        }
-
-        public int get() {
-            return n;
-        }
-
-        public int inc() {
-            n++;
-            if (n == capacity) n = 0;
-            return n;
-        }
-
-        public int dec() {
-            n--;
-            if (n < 0) n = capacity - 1;
-            return n;
-        }
-
-        public int add(int rhs) {
-            int t = n + rhs;
-            if (t >= capacity) t -= capacity;
-            return t;
-        }
-    }
-
-    T[] arr;
-
-    int size = 0;
-    int capacity = 8;
-    Index bg, ed;
+    private T[] arr;
+    private int size = 0;
+    private int capacity = 8;
+    private Index bg, ed;
 
     public ArrayDeque() {
         arr = (T[]) new Object[8];
         bg = new Index(0);
         ed = new Index(0);
     }
-
-    public void setBg(int i) { bg = new Index(i); }
-
-    public int getBg() { return bg.get(); }
 
     // For arrays of length 16 or more, usage factor should always be at least 25%
     private void reserve(int cap) {
@@ -128,31 +92,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public T get(int index) {
         checkValidIndex(index);
-        return arr[bg.get() + index];
+        return arr[new Index(index + bg.get()).get()];
     }
 
     private void checkValidIndex(int index) {
         if (index >= 0 && index < size) return;
         throw new IndexOutOfBoundsException("Index " + index + " is out of bounds for deque of size " + size);
-    }
-
-    private class ADIterator implements Iterator<T> {
-        int pos = bg.get();
-        Index cur = new Index(pos);
-
-        ADIterator() {}
-
-        @Override
-        public boolean hasNext() {
-            return pos >= bg.get() && pos < ed.get();
-        }
-
-        @Override
-        public T next() {
-            T ret = arr[cur.get()];
-            pos = cur.inc();
-            return ret;
-        }
     }
 
     @Override
@@ -162,12 +107,63 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ArrayDeque)) return false;
-        ArrayDeque od = (ArrayDeque) o;
+        if (!(o instanceof Deque)) return false;
+        Deque od = (Deque) o;
         if (size != od.size()) return false;
-        Iterator<T> it = od.iterator();
-        for (T t : this)
-            if (!t.equals(it.next())) return false;
+        for (int i = 0; i != size; ++i) {
+            if (!get(i).equals(od.get(i))) return false;
+        }
         return true;
+    }
+
+    // Index of arr, ModCapacityResidueClass
+    private class Index {
+        int n;
+
+        public Index(int i) {
+            n = i % capacity;
+        }
+
+        public int get() {
+            return n;
+        }
+
+        public int inc() {
+            n++;
+            if (n == capacity) n = 0;
+            return n;
+        }
+
+        public int dec() {
+            n--;
+            if (n < 0) n = capacity - 1;
+            return n;
+        }
+
+        public int add(int rhs) {
+            int t = n + rhs;
+            if (t >= capacity) t -= capacity;
+            return t;
+        }
+    }
+
+    private class ADIterator implements Iterator<T> {
+        int pos = bg.get();
+        Index cur = new Index(pos);
+
+        ADIterator() {
+        }
+
+        @Override
+        public boolean hasNext() {
+            return pos >= bg.get() && pos < ed.get() + size;
+        }
+
+        @Override
+        public T next() {
+            T ret = arr[cur.get()];
+            pos = cur.inc();
+            return ret;
+        }
     }
 }

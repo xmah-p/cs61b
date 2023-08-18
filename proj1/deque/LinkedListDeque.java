@@ -2,51 +2,13 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements  Deque<T>, Iterable<T> {
-    private class Node {
-        T data;
-        Node prev, next;
-
-        Node() {}
-
-        Node(T data, Node prev, Node next) {
-            this.data = data;
-            this.prev = prev;
-            this.next = next;
-        }
-    }
-
-    private Node head;
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
+    private final Node head;
     private int size = 0;
 
     public LinkedListDeque() {
         head = new Node();
         head.prev = head.next = head;
-    }
-
-    private class LLIterator implements Iterator<T> {
-        private int pos = 0;
-        private Node curr = head.next;
-
-        LLIterator() {}
-
-        LLIterator(int pos) {
-            checkValidIndex(pos);
-            this.pos = pos;
-            curr = getNode(pos);
-        }
-
-        @Override
-        public boolean hasNext() {
-            return pos >= 0 && pos < size;
-        }
-
-        @Override
-        public T next() {
-            curr = curr.next;
-            ++pos;
-            return curr.prev.data;
-        }
     }
 
     @Override
@@ -141,13 +103,51 @@ public class LinkedListDeque<T> implements  Deque<T>, Iterable<T> {
 
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof LinkedListDeque)) return false;
-        LinkedListDeque<T> od = (LinkedListDeque<T>) o;
+        if (!(o instanceof Deque)) return false;
+        Deque od = (Deque) o;
         if (size != od.size()) return false;
-        Node q = od.head.next;
-        for (Node p = head.next; p != head && q != od.head; p = p.next, q = q.next) {
-            if (!p.data.equals(q.data)) return false;
+        for (int i = 0; i != size; ++i) {
+            if (!get(i).equals(od.get(i))) return false;
         }
         return true;
+    }
+
+    private class Node {
+        T data;
+        Node prev, next;
+
+        Node() {
+        }
+
+        Node(T data, Node prev, Node next) {
+            this.data = data;
+            this.prev = prev;
+            this.next = next;
+        }
+    }
+
+    private class LLIterator implements Iterator<T> {
+        private int pos = 0;
+        private Node curr = head.next;
+
+        LLIterator() {}
+
+        LLIterator(int pos) {
+            checkValidIndex(pos);
+            this.pos = pos;
+            curr = getNode(pos);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return pos >= 0 && pos < size;
+        }
+
+        @Override
+        public T next() {
+            curr = curr.next;
+            ++pos;
+            return curr.prev.data;
+        }
     }
 }
