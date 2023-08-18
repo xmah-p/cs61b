@@ -10,20 +10,14 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../library-sp21/javalib/masterpom.xml</relativePath>
     </parent>
-<repositories>
-    <repository>
-        <id>example-repo</id>
-        <name>Example Repository</name>
-        <url>file:\\E:\workspace\cs61b\library-sp21\javalib</url>
-    </repository>
-</repositories>
+
     <groupId>CS61B</groupId>
     <artifactId>lab3</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <build>
-        <sourceDirectory>${project.basedir}/src</sourceDirectory>
-        <testSourceDirectory>${project.basedir}/src</testSourceDirectory>
+        <sourceDirectory>${project.basedir}</sourceDirectory>
+        <testSourceDirectory>${project.basedir}</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
