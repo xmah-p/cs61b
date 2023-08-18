@@ -120,7 +120,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private class Index {
         int n;
 
-        public Index(int i) {
+        Index(int i) {
             n = i % capacity;
         }
 
@@ -156,7 +156,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         @Override
         public boolean hasNext() {
-            return pos >= bg.get() && pos < ed.get() + size;
+            return bg.get() < ed.get() ?
+                    pos >= bg.get() && pos < ed.get()
+                    : pos >= bg.get() || pos < ed.get();
         }
 
         @Override
