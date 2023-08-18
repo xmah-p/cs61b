@@ -15,18 +15,9 @@
     <artifactId>lab2setup</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <repositories>
-        <repository>
-            <id>example-repo</id>
-            <name>Example Repository</name>
-            <url>file:\\E:\workspace\cs61b\library-sp21\javalib</url>
-        </repository>
-    </repositories>
-
-
     <build>
-        <sourceDirectory>src</sourceDirectory>
-        <testSourceDirectory>src</testSourceDirectory>
+        <sourceDirectory>${project.basedir}</sourceDirectory>
+        <testSourceDirectory>${project.basedir}</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -49,5 +40,5 @@
             </plugin>
         </plugins>
     </build>
-
+    
 </project>

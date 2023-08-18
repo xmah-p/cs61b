@@ -3,13 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-<repositories>
-    <repository>
-        <id>example-repo</id>
-        <name>Example Repository</name>
-        <url>file:\\E:\workspace\cs61b\library-sp21\javalib</url>
-    </repository>
-</repositories>
+
     <parent>
         <groupId>CS61B</groupId>
         <artifactId>61BMasterPom</artifactId>
