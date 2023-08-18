@@ -33,12 +33,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             if (t >= capacity) t -= capacity;
             return t;
         }
-
-        public int sub(int rhs) {
-            int t = n - rhs;
-            if (t < 0) t += capacity;
-            return t;
-        }
     }
 
     T[] arr;
@@ -52,6 +46,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         bg = new Index(0);
         ed = new Index(0);
     }
+
+    public void setBg(int i) { bg = new Index(i); }
+
+    public int getBg() { return bg.get(); }
 
     // For arrays of length 16 or more, usage factor should always be at least 25%
     private void reserve(int cap) {
@@ -84,11 +82,6 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size++;
         arr[ed.get()] = item;
         ed.inc();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -135,17 +128,17 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     @Override
     public T get(int index) {
         checkValidIndex(index);
-        return arr[bg.add(index)];
+        return arr[bg.get() + index];
     }
 
     private void checkValidIndex(int index) {
-        if (index >= bg.get() && index < ed.get()) return;
+        if (index >= 0 && index < size) return;
         throw new IndexOutOfBoundsException("Index " + index + " is out of bounds for deque of size " + size);
     }
 
     private class ADIterator implements Iterator<T> {
         int pos = bg.get();
-        Index cur = bg;
+        Index cur = new Index(pos);
 
         ADIterator() {}
 

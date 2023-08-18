@@ -1,5 +1,7 @@
 package deque;
 
+import afu.org.checkerframework.checker.igj.qual.I;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -126,5 +128,25 @@ public class ArrayDequeTest {
         for (int t : ad) {
             assertEquals(expected, t);
         }
+    }
+
+    @Test
+    public void EqualsTest() {
+        ArrayDeque<Integer> ad = new ArrayDeque<>();
+        ArrayDeque<Integer> ad2 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad3 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad4 = new ArrayDeque<>();
+        ArrayDeque<Integer> ad5 = ad4;
+        ad3.addLast(0);
+        ad3.addLast(1);
+        ad4.addFirst(0);
+        ad4.addLast(1);
+        assertFalse(ad.equals(null));
+        assertFalse(ad.equals(0));
+        assertFalse(ad.equals(""));
+        assertTrue(ad.equals(ad2));
+        assertFalse(ad.equals(ad3));
+        assertTrue(ad3.equals(ad4));
+        assertTrue(ad5.equals(ad4));
     }
 }
