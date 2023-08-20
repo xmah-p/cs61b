@@ -156,6 +156,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
         @Override
         public boolean hasNext() {
+            if (bg.get() == ed.get()) return false;
             return bg.get() < ed.get() ?
                     pos >= bg.get() && pos < ed.get()
                     : pos >= bg.get() || pos < ed.get();
