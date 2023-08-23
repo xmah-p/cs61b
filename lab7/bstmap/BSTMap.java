@@ -6,24 +6,9 @@ import java.util.Set;
 
 public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
 
-    private class Node {
-        K key;
-        V val;
-        int size;
-
-        Node left, right;
-
-        Node(K k, V v, int sz) {
-            key = k;
-            val = v;
-            size = sz;
-            left = right = null;
-        }
-    }
-
     Node root;
 
-    BSTMap() {
+    public BSTMap() {
 
     }
 
@@ -125,14 +110,14 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     private Node remove(Node n, K key) {
         if (n == null) return null;
         int cmp = key.compareTo(n.key);
-        if (cmp < 0) n.left =  remove(n.left, key);
-        else if (cmp > 0) n.right =  remove(n.right, key);
+        if (cmp < 0) n.left = remove(n.left, key);
+        else if (cmp > 0) n.right = remove(n.right, key);
         else {
             if (n.left == null) return n.right;
             if (n.right == null) return n.left;
 
             Node t = n.right;
-            while(t.left != null) {
+            while (t.left != null) {
                 t = t.left;
             }
             n.key = t.key;
@@ -146,5 +131,20 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
     @Override
     public Iterator<K> iterator() {
         throw new UnsupportedOperationException();
+    }
+
+    private class Node {
+        K key;
+        V val;
+        int size;
+
+        Node left, right;
+
+        Node(K k, V v, int sz) {
+            key = k;
+            val = v;
+            size = sz;
+            left = right = null;
+        }
     }
 }
